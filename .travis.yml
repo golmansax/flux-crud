@@ -1,0 +1,16 @@
+sudo: false
+language: node_js
+node_js: '0.10'
+script:
+- travis-lint .travis.yml
+- make jscs
+- make jshint
+- npm test
+- make codeclimate
+- make check-if-built
+cache:
+  directories:
+  - node_modules
+env:
+  global:
+    secure: PvoCUsOLb/AvyYenVRcgTD+QhP38PZWZI2wEeDw3WYtL8s4nva4P3oveX4pEu+QF0zok+M5/a3Gjnc84UW4enZkEIIJnXtgsOUIzwkrxrnnufGCIrBkscWxselOy0HN0Z4dqTBwr2KzvGWNxM5eEdvUuSTs00ZGq07zGlrR6OwI=
