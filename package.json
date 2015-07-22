@@ -1,13 +1,13 @@
 {
-  "name": "flux-crud-store",
-  "description": "A Flux Store implementation that uses Backbone for CRUD actions. Can return Immutable.js objects to allow for pure rendering.",
+  "name": "flux-crud",
+  "description": "In progress...",
   "license": "MIT",
   "author": "Holman Gao <holman@golmansax.com>",
-  "version": "0.0.12",
+  "version": "0.0.1",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
-    "url": "http://github.com/golmansax/flux-crud-store.git"
+    "url": "http://github.com/golmansax/flux-crud.git"
   },
   "keywords": [
     "react",
@@ -16,7 +16,6 @@
     "store",
     "flux",
     "immutable",
-    "backbone"
   ],
   "devDependencies": {
     "browserify": "latest",
@@ -35,9 +34,7 @@
     "travis-lint": "latest"
   },
   "dependencies": {
-    "backbone": "latest",
     "keymirror": "latest",
-    "underscore": "latest"
   },
   "scripts": {
     "test": "make test",
