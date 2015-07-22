@@ -16,9 +16,9 @@ describe('flux_crud/constants', function () {
   describe('#instance', function () {
     it('creates a hash with all of the actions as keys', function () {
       expect(constants).to.include.keys([
-        'TODO_UPDATE',
-        'TODO_DESTROY',
-        'TODO_CREATE'
+        'UPDATE',
+        'DESTROY',
+        'CREATE'
       ]);
     });
 
@@ -26,9 +26,9 @@ describe('flux_crud/constants', function () {
       expect(Object.keys(constants).length).to.equal(3);
     });
 
-    it('creates a hash where all of the keys equal the values', function () {
+    it('creates a hash where the values are the keys plux prefix', function () {
       Object.keys(constants).forEach(function (key) {
-        expect(constants[key]).to.equal(key);
+        expect(constants[key]).to.equal(`TODO_${key}`);
       });
     });
   });

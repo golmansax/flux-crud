@@ -19,25 +19,71 @@ class Constants {
   constructor(props) {
     var prefix = props.prefix;
 
-    for (var i = 0; i < ACTIONS.length; i++) {
-      var constant = (prefix + '_' + ACTIONS[i]).toUpperCase();
-      this[constant] = constant;
-    }
+    ACTIONS.forEach(function (action) {
+      var constant = (prefix + '_' + action).toUpperCase();
+      this[action.toUpperCase()] = constant;
+    }.bind(this));
   }
 }
 
 module.exports = Constants;
 
-},{}],"flux-crud-store":[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 'use strict';
 
-//var Store = require('./flux_crud/store');
+var OrderedMap = require('immutable').OrderedMap;
+
+class Store {
+  constructor(props) {
+    this._attributes = props.attributes;
+    this._constants = props.constants;
+    this._idAttribute = props.idAttribute || 'id';
+    this._dispatchHandlers = {
+    };
+
+    this._storage = new OrderedMap();
+    this._emitter = {};
+
+    props.dispatcher.register(this._handleDispatch.bind(this));
+  }
+
+  get(key) {
+    return this._storage.get(id);
+  }
+
+  getAll() {
+    return this._storage;
+  }
+
+  addListener(key) {
+  }
+
+  removeListener(key) {
+  }
+
+  addAllListener() {
+  }
+
+  removeAllListener() {
+  }
+
+  _handleDispatch(action) {
+    this._dispatchHandlers[action.actionType](action);
+  }
+}
+
+module.exports = Store;
+
+},{"immutable":"immutable"}],"flux-crud-store":[function(require,module,exports){
+'use strict';
+
+var Store = require('./flux_crud/store');
 //var Actions = require('./flux_crud/actions');
 var Constants = require('./flux_crud/constants');
 
 //module.exports = { Store: Store, Actions: Actions, Constants: Constants };
-module.exports = { Constants: Constants };
+module.exports = { Store: Store, Constants: Constants };
 
-},{"./flux_crud/constants":1}]},{},[]);
+},{"./flux_crud/constants":1,"./flux_crud/store":2}]},{},[]);
   return require('flux-crud-store');
 }))
