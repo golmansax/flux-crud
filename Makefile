@@ -4,10 +4,10 @@ test:
 	./node_modules/.bin/mocha test/* --compilers js:babel/register
 
 coverage:
-	istanbul cover ./node_modules/.bin/_mocha -- -R spec test/**/*
+	istanbul cover ./node_modules/.bin/_mocha -report lcovonly -- -R spec --compilers js:babel/register test/**/*_test.js
 
-codeclimate:
-	istanbul cover ./node_modules/.bin/_mocha -report lcovonly -- -R spec --compilers js:babel/register && ./node_modules/.bin/codeclimate-test-reporter < ./coverage/lcov.info
+codeclimate: coverage
+	./node_modules/.bin/codeclimate-test-reporter < ./coverage/lcov.info
 
 build:
 	mkdir -p dist/
