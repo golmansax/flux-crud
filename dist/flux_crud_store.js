@@ -1,14 +1,14 @@
 (function(root, factory) {
   if(typeof exports === 'object') {
-    module.exports = factory(require('backbone'), require('underscore'), require('immutable'));
+    module.exports = factory(require('immutable'));
   } else if(typeof define === 'function' && define.amd) {
-    define(['backbone', 'underscore', 'immutable'], factory);
+    define(['immutable'], factory);
   } else {
-    root.FluxCrudStore = factory(root.Backbone, root._, root.Immutable);
+    root.FluxCrudStore = factory(root.Immutable);
   }
-}(this, function(Backbone, _, Immutable) {
+}(this, function(Immutable) {
   var require = function(name) {
-    return {'backbone': Backbone, 'underscore': _, 'immutable': Immutable}[name];
+    return {'immutable': Immutable}[name];
   };
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
@@ -153,50 +153,28 @@ module.exports = {
 'use strict';
 
 var Collection = require('backbone').Collection;
-var Immutable = require('immutable');
 var extend = Collection.extend;
 var _ = require('underscore');
 
-var OrderedMap;
-var Record;
-if (Immutable) {
-  OrderedMap = Immutable.OrderedMap;
-  Record = Immutable.Record;
-}
+var OrderedMap = require('immutable').OrderedMap;
+var Record = require('immutable').Record;
 
 var BACKBONE_EVENTS = 'add remove change reset sync';
 
-var CrudStore = function () {
+var CrudStore = function (dispatcher) {
+  this._dispatcher = dispatcher;
   this.initialize();
 };
 CrudStore.extend = extend;
-CrudStore.instance = function () {
-  return new this();
+CrudStore.instance = function (dispatcher) {
+  return new this(dispatcher);
 };
-
-function isImmutableRecord(klass) {
-  if (typeof klass !== 'function') {
-    return false;
-  }
-
-  var dummy = { klass: klass };
-  var testModel = new dummy.klass();
-  return testModel instanceof Record;
-}
 
 _(CrudStore.prototype).extend({
   collection: Collection,
 
   initialize: function () {
     if (this._isUsingViewModel()) {
-      if (!Immutable) {
-        throw 'You need to install Immutable.js to set viewModel';
-      }
-
-      if (!isImmutableRecord(this.viewModel)) {
-        throw 'viewModel, if defined, must be an Immutable.Record class';
-      }
-
       this._viewModels = new OrderedMap();
     }
 
@@ -348,12 +326,12 @@ module.exports = keyMirror;
 },{}],"flux-crud-store":[function(require,module,exports){
 'use strict';
 
-var Store = require('./crud_store/store');
-var Actions = require('./crud_store/actions');
-var Constants = require('./crud_store/constants');
+var Store = require('./flux_crud/store');
+var Actions = require('./flux_crud/actions');
+var Constants = require('./flux_crud/constants');
 
 module.exports = { Store: Store, Actions: Actions, Constants: Constants };
 
-},{"./crud_store/actions":1,"./crud_store/constants":2,"./crud_store/store":3}]},{},[]);
+},{"./flux_crud/actions":1,"./flux_crud/constants":2,"./flux_crud/store":3}]},{},[]);
   return require('flux-crud-store');
 }))

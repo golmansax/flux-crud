@@ -15,7 +15,7 @@
     "rest",
     "store",
     "flux",
-    "immutable",
+    "immutable"
   ],
   "devDependencies": {
     "browserify": "latest",
@@ -34,7 +34,7 @@
     "travis-lint": "latest"
   },
   "dependencies": {
-    "keymirror": "latest",
+    "keymirror": "latest"
   },
   "scripts": {
     "test": "make test",
