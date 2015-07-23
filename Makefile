@@ -9,15 +9,22 @@ coverage:
 codeclimate: coverage
 	./node_modules/.bin/codeclimate-test-reporter < ./coverage/lcov.info
 
-build:
+build: build-es5 build-es6
+
+build-es6:
 	mkdir -p dist/
 	./node_modules/.bin/browserify -r ./lib/index.js:flux-crud-store -x immutable -x underscore -x backbone > dist/bundle.js
 	cat build/umd-head.js dist/bundle.js build/umd-tail.js > dist/flux_crud.js
 	rm dist/bundle.js
 
-check-if-built:
-	make build
-	test `git diff --name-only dist/flux_crud.js | wc -l` -eq 0
+build-es5:
+	mkdir -p dist/
+	./node_modules/.bin/browserify -t babelify -r ./lib/index.js:flux-crud-store -x immutable -x underscore -x backbone > dist/bundle.js
+	cat build/umd-head.js dist/bundle.js build/umd-tail.js > dist/flux_crud_es5.js
+	rm dist/bundle.js
+
+check-if-built: build
+	test `git diff --name-only dist | wc -l` -eq 0
 
 jshint:
 	jshint . --exclude-path .jshintignore

@@ -3,7 +3,7 @@
   "description": "In progress...",
   "license": "MIT",
   "author": "Holman Gao <holman@golmansax.com>",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   ],
   "devDependencies": {
     "babel": "latest",
+    "babelify": "latest",
     "browserify": "latest",
     "chai": "latest",
     "dirty-chai": "latest",
