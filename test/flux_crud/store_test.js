@@ -101,6 +101,27 @@ describe('flux_crud/store', () => {
   });
 
   describe('#addCollectionListener', () => {
+    var listener;
+
+    beforeEach(() => {
+      listener = sinon.spy();
+      store.addCollectionListener(listener);
+    });
+
+    it('calls the listener when a record is created', () => {
+      actions.create(3, { name: 'learn ocaml' });
+      expect(listener).to.have.been.called();
+    });
+
+    it('calls the listener when a record is updated', () => {
+      actions.update(1, { name: 'learn ocaml' });
+      expect(listener).to.have.been.called();
+    });
+
+    it('calls the listener when a record is destroyed', () => {
+      actions.destroy(1);
+      expect(listener).to.have.been.called();
+    });
   });
 
   describe('#removeCollectionListener', () => {
