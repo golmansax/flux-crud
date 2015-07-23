@@ -4,9 +4,9 @@
   } else if(typeof define === 'function' && define.amd) {
     define(['immutable'], factory);
   } else {
-    root.FluxCrudStore = factory(root.Immutable);
+    root.FluxCrud = factory(root.Immutable);
   }
-}(this, function(Immutable) {
+}(this || window, function(Immutable) {
   var require = function(name) {
     return {'immutable': Immutable}[name];
   };
@@ -75,7 +75,8 @@ var { EventEmitter } = require('events');
 
 class Store {
   constructor(props) {
-    // required props: constants, dispatcher, defaultAttrs
+    // required props: constants, dispatcher
+    // props.Record or props.defaultAttrs
 
     this._constants = props.constants;
     this._dispatchHandlers = {
@@ -83,12 +84,17 @@ class Store {
       [this._constants.UPDATE]: '_handleUpdate',
       [this._constants.DESTROY]: '_handleDestroy'
     };
-    this._Record = Record(props.defaultAttrs);
+    this._Record = props.Record || Record(props.defaultAttrs);
 
     this._storage = new OrderedMap();
     this._emitter = new EventEmitter();
+    this._emitter.setMaxListeners(100);
 
     props.dispatcher.register(this._handleDispatch.bind(this));
+
+    // TODO remove
+    this.addChangeListener = this.addCollectionListener;
+    this.removeChangeListener = this.removeCollectionListener;
   }
 
   get(key) {
@@ -117,7 +123,7 @@ class Store {
 
   _handleDispatch(action) {
     var functionName = this._dispatchHandlers[action.actionType];
-    this[functionName](action);
+    if (this[functionName]) { this[functionName](action); }
   }
 
   _handleCreate(action) {
@@ -142,7 +148,7 @@ class Store {
     });
     this._storage = this._storage.set(action.key, newRecord);
 
-    // if changed, emit change
+    // If record changed, emit change
     if (newRecord !== oldRecord) {
       this._emitCollectionChange();
       this._emitRecordChange(action.key);

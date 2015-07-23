@@ -1,7 +1,10 @@
 test/
 Makefile
-coverage
+coverage/
 .jshintrc
 .jscsrc
 .travis.yml
 dist/
+deprecated/
+build/
+bower.json

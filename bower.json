@@ -18,9 +18,12 @@
   ],
   "ignore": [
     "lib/",
+    "deprecated/",
+    "build/",
+    "package.json",
     "test/",
     "Makefile",
-    "coverage",
+    "coverage/",
     ".jshintrc",
     ".jscsrc",
     ".travis.yml"
