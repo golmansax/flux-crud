@@ -125,5 +125,21 @@ describe('flux_crud/store', () => {
   });
 
   describe('#removeCollectionListener', () => {
+    var listener;
+
+    beforeEach(() => {
+      listener = sinon.spy();
+      store.addCollectionListener(listener);
+    });
+
+    it('removes the registered listener', () => {
+      actions.update(1, { name: 'play music' });
+      expect(listener).to.have.been.called();
+
+      store.removeCollectionListener(listener);
+      listener.reset();
+      actions.update(1, { name: 'eat pizza' });
+      expect(listener).not.to.have.been.called();
+    });
   });
 });
